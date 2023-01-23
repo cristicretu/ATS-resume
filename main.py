@@ -1,6 +1,11 @@
 import os
 import sys
+
 from pypdf import PdfReader
+import spacy
+
+# Load the SpaCy model
+nlp = spacy.load("en_core_web_sm")
 
 if __name__ == "__main__":
     res = sys.argv[1]
@@ -22,3 +27,26 @@ if __name__ == "__main__":
             text += page.extract_text()
 
     print(text)
+    print('----------------------------')
+
+    # Process the text with SpaCy
+    doc = nlp(text)
+
+    # Extract the keywords
+    keywords = [token.text for token in doc if token.is_stop != True and token.is_punct != True]
+
+    # Extract the education
+    education = []
+    for ent in doc.ents:
+        if ent.label_ == "DEGREE":
+            education.append(ent.text)
+
+    # Extract the work experience
+    experience = []
+    for sent in doc.sents:
+        if "experience" in sent.text.lower():
+            experience.append(sent.text)
+
+    print(keywords)
+    print(education)
+    print(experience)
