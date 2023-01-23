@@ -5,7 +5,7 @@ from pypdf import PdfReader
 import spacy
 
 # Load the SpaCy model
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("xx_ent_wiki_sm")
 
 if __name__ == "__main__":
     res = sys.argv[1]
